@@ -53,6 +53,11 @@
  * 显示HUD  成功信息
  */
 +(void)showHUDSuccessWithText:(NSString *)str inView:(UIView *)view;
+
+/**
+ * 隐藏所有HUD keyWindow
+ */
++(void)HideHUDAnimated:(BOOL)animated;
 /**
  * 隐藏所有HUD
  */

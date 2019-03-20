@@ -11,7 +11,8 @@
 #define GW_HUD_ROOTWINDOW [[UIApplication sharedApplication].delegate window]
 #define GW_HUD_BackColor [UIColor blackColor]
 #define GW_HUD_TextColor [UIColor whiteColor]
-static const NSTimeInterval timeInt = 1.0;
+static const NSTimeInterval timeInt = 1.2;
+static const NSTimeInterval timeHide = 0.2;
 static const float backAlpha = 0.7;
 @implementation GW_HUD
 
@@ -22,9 +23,9 @@ static const float backAlpha = 0.7;
     HUD.bezelView.color = [GW_HUD_BackColor colorWithAlphaComponent:backAlpha];
     //    文字颜色
     HUD.contentColor = GW_HUD_TextColor;
-//    间距
+    //    间距
     HUD.margin = 18.f;
-//    是否宽高比一致
+    //    是否宽高比一致
     HUD.square = NO;
 }
 
@@ -41,7 +42,7 @@ static const float backAlpha = 0.7;
     HUD.label.text = str;
     HUD.removeFromSuperViewOnHide = YES;
     [HUD hideAnimated:YES afterDelay:timeInt];
-
+    
 }
 
 +(void)showHUDText:(NSString *)str hideDelay:(NSTimeInterval)delay{
@@ -50,25 +51,26 @@ static const float backAlpha = 0.7;
 
 +(void)showHUDText:(NSString *)str inView:(UIView *)view hideDelay:(NSTimeInterval)delay
 {
-	MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
-	HUD.mode = MBProgressHUDModeText;
+    [MBProgressHUD hideHUDForView:view animated:YES];
+    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    HUD.mode = MBProgressHUDModeText;
     [self commentSetting:HUD];
-	HUD.label.text = str;
-	HUD.removeFromSuperViewOnHide = YES;
-	[HUD hideAnimated:YES afterDelay:delay];
+    HUD.label.text = str;
+    HUD.removeFromSuperViewOnHide = YES;
+    [HUD hideAnimated:YES afterDelay:delay];
 }
 
 +(void)showHUDLoadingWithText:(NSString *)str{
     [self showHUDLoadingWithText:str inView:GW_HUD_ROOTWINDOW];
 }
 +(void)showHUDLoadingWithText:(NSString *)str inView:(UIView *)view{
-    
+    [MBProgressHUD hideHUDForView:view animated:YES];
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
     [self commentSetting:HUD];
     [view addSubview:HUD];
     HUD.label.text = str;
-//    HUD.mode = MBProgressHUDModeCustomView;
-//    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"allloading.gif" ofType:nil]]];
+    //    HUD.mode = MBProgressHUDModeCustomView;
+    //    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"allloading.gif" ofType:nil]]];
     [HUD showAnimated:YES];
 }
 
@@ -77,13 +79,14 @@ static const float backAlpha = 0.7;
 }
 
 +(void)showHUDLoadingWithText:(NSString *)str inView:(UIView *)view hideDelay:(NSTimeInterval)delay{
+    [MBProgressHUD hideHUDForView:view animated:YES];
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
     [self commentSetting:HUD];
     [view addSubview:HUD];
     HUD.label.text = str;
-//    自定义View
-//    HUD.mode = MBProgressHUDModeCustomView;
-//    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"allloading.gif" ofType:nil]]];
+    //    自定义View
+    //    HUD.mode = MBProgressHUDModeCustomView;
+    //    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"allloading.gif" ofType:nil]]];
     [HUD showAnimated:YES];
     [HUD hideAnimated:YES afterDelay:delay];
 }
@@ -93,6 +96,7 @@ static const float backAlpha = 0.7;
 }
 
 +(void)showHUDErrorWithText:(NSString *)str inView:(UIView *)view{
+    [MBProgressHUD hideHUDForView:view animated:YES];
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
     [view addSubview:HUD];
     HUD.mode = MBProgressHUDModeCustomView;
@@ -101,7 +105,7 @@ static const float backAlpha = 0.7;
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"GW_Wrong.png"]];
     [HUD showAnimated:YES];
     [HUD hideAnimated:YES afterDelay:timeInt];
-
+    
 }
 
 +(void)showHUDSuccessWithText:(NSString *)str{
@@ -109,6 +113,7 @@ static const float backAlpha = 0.7;
 }
 
 +(void)showHUDSuccessWithText:(NSString *)str inView:(UIView *)view{
+    [MBProgressHUD hideHUDForView:view animated:YES];
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
     [view addSubview:HUD];
     [self commentSetting:HUD];
@@ -118,7 +123,11 @@ static const float backAlpha = 0.7;
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"GW_Success.png"]];
     [HUD showAnimated:YES];
     [HUD hideAnimated:YES afterDelay:timeInt];
+    
+}
 
++(void)HideHUDAnimated:(BOOL)animated{
+    [self HideHUDFrom:GW_HUD_ROOTWINDOW animated:animated];
 }
 
 +(void)HideHUDFrom:(UIView *)view animated:(BOOL)animated{
@@ -127,7 +136,7 @@ static const float backAlpha = 0.7;
 
 +(void)HideHUDFrom:(UIView *)view animated:(BOOL)animated afterDelay:(NSInteger)time{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-         [MBProgressHUD hideHUDForView:view animated:animated];
+        [MBProgressHUD hideHUDForView:view animated:animated];
     });
     
 }
@@ -146,7 +155,7 @@ static const float backAlpha = 0.7;
 
 +(void)HideHUDAndShowText:(NSString *)text inView:(UIView *)view{
     __weak __typeof(&*self)weakSelf = self;
-    [self HideHUDFrom:view animated:YES afterDelay:timeInt didHide:^{
+    [self HideHUDFrom:view animated:YES afterDelay:timeHide didHide:^{
         [weakSelf showHUDText:text inView:view];
     }];
 }
@@ -157,8 +166,19 @@ static const float backAlpha = 0.7;
 
 +(void)HideHUDAndShowSuccess:(NSString *)text inView:(UIView *)view{
     __weak __typeof(&*self)weakSelf = self;
-    [self HideHUDFrom:view animated:YES afterDelay:timeInt didHide:^{
+    [self HideHUDFrom:view animated:YES afterDelay:timeHide didHide:^{
         [weakSelf showHUDSuccessWithText:text inView:view];
+    }];
+}
+
++(void)HideHUDAndShowError:(NSString *)text{
+    [self HideHUDAndShowError:text inView:GW_HUD_ROOTWINDOW];
+}
+
++(void)HideHUDAndShowError:(NSString *)text inView:(UIView *)view{
+    __weak __typeof(&*self)weakSelf = self;
+    [self HideHUDFrom:view animated:YES afterDelay:timeHide didHide:^{
+        [weakSelf showHUDErrorWithText:text inView:view];
     }];
 }
 
