@@ -78,5 +78,12 @@
  * 隐藏所有HUD 然后显示出HUD成功信息
  */
 +(void)HideHUDAndShowSuccess:(NSString *)text inView:(UIView *)view;
-
+/**
+ * 隐藏所有HUD 然后显示出HUD错误信息 keyWindow
+ */
++(void)HideHUDAndShowError:(NSString *)text;
+/**
+ * 隐藏所有HUD 然后显示出HUD错误信息
+ */
++(void)HideHUDAndShowError:(NSString *)text inView:(UIView *)view;
 @end
