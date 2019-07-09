@@ -27,6 +27,8 @@ static const float backAlpha = 0.7;
     HUD.margin = 18.f;
     //    是否宽高比一致
     HUD.square = NO;
+    //    多行显示
+    HUD.label.numberOfLines = 0;
 }
 
 +(void)showHUDText:(NSString *)str;{
