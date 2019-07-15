@@ -160,16 +160,15 @@ static const float backAlpha = 0.7;
 }
 
 +(void)HideHUDFrom:(UIView *)view animated:(BOOL)animated afterDelay:(NSInteger)time{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:view animated:animated];
-    });
-    
+    [self HideHUDFrom:view animated:animated afterDelay:time didHide:nil];
 }
 
 +(void)HideHUDFrom:(UIView *)view animated:(BOOL)animated afterDelay:(NSInteger)time didHide:(void (^)(void))block{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:view animated:animated];
-        block();
+        if (block) {
+            block();
+        }
     });
     
 }
@@ -217,12 +216,12 @@ static const float backAlpha = 0.7;
     }
 }
 
-+ (void)gw_HideHUD:(MBProgressHUD *)HUD Animated:(BOOL)Animated afterDelay:(BOOL)Delay{
++ (void)gw_HideHUD:(MBProgressHUD *)HUD Animated:(BOOL)Animated afterDelay:(NSTimeInterval)delay{
     if ([NSThread isMainThread]) {
-        [HUD hideAnimated:Animated afterDelay:Delay];
+        [HUD hideAnimated:Animated afterDelay:delay];
     }else{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [HUD hideAnimated:Animated afterDelay:Delay];
+            [HUD hideAnimated:Animated afterDelay:delay];
         });
     }
 }
