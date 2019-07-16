@@ -36,33 +36,22 @@ static const float backAlpha = 0.7;
 }
 
 +(void)showHUDText:(NSString *)str inView:(UIView *)view{
-    
-    [self HideHUDFrom:view animated:YES];
-    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    [self commentSetting:HUD];
-    HUD.mode = MBProgressHUDModeText;
-    HUD.label.text = str;
-    HUD.removeFromSuperViewOnHide = YES;
-    [self gw_HideHUD:HUD Animated:YES afterDelay:timeInt];
+    [self showHUDText:str inView:view hideDelay:timeInt];
 }
 
 +(void)showHUDText:(NSString *)str hideDelay:(NSTimeInterval)delay{
     [self showHUDText:str inView:GW_HUD_ROOTWINDOW hideDelay:delay];
 }
 
-+(void)showHUDText:(NSString *)str inView:(UIView *)view hideDelay:(NSTimeInterval)delay
-{
-    [self HideHUDFrom:view animated:YES];
-    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    HUD.mode = MBProgressHUDModeText;
-    [self commentSetting:HUD];
-    HUD.label.text = str;
-    HUD.removeFromSuperViewOnHide = YES;
-    [self gw_HideHUD:HUD Animated:YES afterDelay:delay];
++(void)showHUDText:(NSString *)str inView:(UIView *)view hideDelay:(NSTimeInterval)delay{
+    [self showHUDText:str inView:view hideDelay:delay completation:nil];
 }
-+(void)showHUDText:(NSString *)str inView:(UIView *)view hideDelay:(NSTimeInterval)delay completation:(MBProgressHUDCompletionBlock)block
-{
+
++(void)showHUDText:(NSString *)str inView:(UIView *)view hideDelay:(NSTimeInterval)delay completation:(MBProgressHUDCompletionBlock)block{
     [self HideHUDFrom:view animated:YES];
+    if (!str.length) {
+        return;
+    }
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
     HUD.mode = MBProgressHUDModeText;
     [self commentSetting:HUD];
@@ -70,7 +59,6 @@ static const float backAlpha = 0.7;
     HUD.removeFromSuperViewOnHide = YES;
     HUD.completionBlock = block;
     [self gw_HideHUD:HUD Animated:YES afterDelay:delay];
-    
 }
 
 +(void)showHUDLoadingWithText:(NSString *)str{
@@ -104,7 +92,6 @@ static const float backAlpha = 0.7;
     [self gw_ShowHUD:HUD Animated:YES];
     [self gw_HideHUD:HUD Animated:YES afterDelay:delay];
 }
-
 
 +(void)showHUDErrorWithText:(NSString *)str{
     [self showHUDErrorWithText:str inView:GW_HUD_ROOTWINDOW];
