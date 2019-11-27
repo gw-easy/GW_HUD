@@ -94,27 +94,42 @@ static const float backAlpha = 0.7;
 }
 
 +(void)showHUDErrorWithText:(NSString *)str{
-    [self showHUDErrorWithText:str inView:GW_HUD_ROOTWINDOW];
+    [self showHUDErrorWithText:str imageName:@"GW_Wrong.png" inView:GW_HUD_ROOTWINDOW];
+}
+
++(void)showHUDErrorWithText:(NSString *)str imageName:(NSString *)imageName{
+    [self showHUDErrorWithText:str imageName:imageName inView:GW_HUD_ROOTWINDOW];
 }
 
 +(void)showHUDErrorWithText:(NSString *)str inView:(UIView *)view{
+    [self showHUDErrorWithText:str imageName:@"GW_Wrong.png" inView:view];
+}
+
++(void)showHUDErrorWithText:(NSString *)str imageName:(NSString *)imageName inView:(UIView *)view{
     [self HideHUDFrom:view animated:YES];
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
     [view addSubview:HUD];
     HUD.mode = MBProgressHUDModeCustomView;
     [self commentSetting:HUD];
     HUD.label.text = str;
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"GW_Wrong.png"]];
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
     [self gw_ShowHUD:HUD Animated:YES];
     [self gw_HideHUD:HUD Animated:YES afterDelay:timeInt];
-    
 }
 
 +(void)showHUDSuccessWithText:(NSString *)str{
     [self showHUDSuccessWithText:str inView:GW_HUD_ROOTWINDOW];
 }
 
++(void)showHUDSuccessWithText:(NSString *)str imageName:(NSString *)imageName{
+    [self showHUDSuccessWithText:str imageName:imageName inView:GW_HUD_ROOTWINDOW];
+}
+
 +(void)showHUDSuccessWithText:(NSString *)str inView:(UIView *)view{
+    [self showHUDSuccessWithText:str imageName:@"GW_Success.png" inView:view];
+}
+
++(void)showHUDSuccessWithText:(NSString *)str imageName:(NSString *)imageName inView:(UIView *)view{
     [self HideHUDFrom:view animated:YES];
     
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
@@ -123,10 +138,9 @@ static const float backAlpha = 0.7;
     HUD.mode = MBProgressHUDModeCustomView;
     [self commentSetting:HUD];
     HUD.label.text = str;
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"GW_Success.png"]];
+    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
     [self gw_ShowHUD:HUD Animated:YES];
     [self gw_HideHUD:HUD Animated:YES afterDelay:timeInt];
-    
 }
 
 +(void)HideHUDAnimated:(BOOL)animated{

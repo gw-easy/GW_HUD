@@ -37,22 +37,48 @@
  */
 +(void)showHUDLoadingWithText:(NSString *)str inView:(UIView *)view;
 +(void)showHUDLoadingWithText:(NSString *)str inView:(UIView *)view hideDelay:(NSTimeInterval)delay;
-/**
- * 显示HUD  错误信息 keyWindow
- */
+
+/// 显示HUD  错误信息 - keyWindow
+/// @param str 文字
 +(void)showHUDErrorWithText:(NSString *)str;
-/**
- * 显示HUD  错误信息
- */
+
+
+/// 显示HUD 错误信息 - keyWindow - 自定义图标
+/// @param str 文字
+/// @param imageName 图片名
++(void)showHUDErrorWithText:(NSString *)str imageName:(NSString *)imageName;
+
+/// 显示HUD  错误信息 - 指定view
+/// @param str 文字
+/// @param view 指定view
 +(void)showHUDErrorWithText:(NSString *)str inView:(UIView *)view;
-/**
- * 显示HUD  成功信息 keyWindow
- */
+
+/// 显示HUD  错误信息
+/// @param str 文字
+/// @param imageName 图片名
+/// @param view 指定view
++(void)showHUDErrorWithText:(NSString *)str imageName:(NSString *)imageName inView:(UIView *)view;
+
+/// 显示HUD 成功信息 - keyWindow
+/// @param str 文字
 +(void)showHUDSuccessWithText:(NSString *)str;
-/**
- * 显示HUD  成功信息
- */
+
+
+/// 显示HUD 成功信息 - keyWindow - 自定义图标
+/// @param str 文字
+/// @param imageName 图片名
++(void)showHUDSuccessWithText:(NSString *)str imageName:(NSString *)imageName;
+
+/// 显示HUD 成功信息 - 指定view
+/// @param str 文字
+/// @param view 图片名
 +(void)showHUDSuccessWithText:(NSString *)str inView:(UIView *)view;
+
+/// 显示HUD 成功信息 - 指定view - 自定义图标
+/// @param str 内容
+/// @param imageName 图片名
+/// @param view 指定view
++(void)showHUDSuccessWithText:(NSString *)str imageName:(NSString *)imageName inView:(UIView *)view;
 
 /**
  * 隐藏所有HUD keyWindow
